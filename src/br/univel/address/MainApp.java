@@ -14,6 +14,7 @@ import br.univel.address.model.Person;
 import br.univel.address.model.PersonListWrapper;
 import br.univel.address.view.PersonEditDialogController;
 import br.univel.address.view.PersonOverviewController;
+import br.univel.address.view.RootLayoutController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -77,20 +78,36 @@ public class MainApp extends Application {
 	/**
 	 * Inicializa o root layout (layout base).
 	 */
+	/**
+	 * Inicializa o root layout e tenta carregar o último arquivo
+	 * de pessoa aberto.
+	 */
 	public void initRootLayout() {
-		try {
-			// Carrega o root layout do arquivo fxml.
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("view/RootLayout.fxml"));
-			rootLayout = (BorderPane) loader.load();
+	    try {
+	        // Carrega o root layout do arquivo fxml.
+	        FXMLLoader loader = new FXMLLoader();
+	        loader.setLocation(MainApp.class
+	                .getResource("view/RootLayout.fxml"));
+	        rootLayout = (BorderPane) loader.load();
 
-			// Mostra a scene (cena) contendo oroot layout.
-			Scene scene = new Scene(rootLayout);
-			primaryStage.setScene(scene);
-			primaryStage.show();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	        // Mostra a scene (cena) contendo o root layout.
+	        Scene scene = new Scene(rootLayout);
+	        primaryStage.setScene(scene);
+
+	        // Dá ao controller o acesso ao main app.
+	        RootLayoutController controller = loader.getController();
+	        controller.setMainApp(this);
+
+	        primaryStage.show();
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+
+	    // Tenta carregar o último arquivo de pessoa aberto.
+	    File file = getPersonFilePath();
+	    if (file != null) {
+	        loadPersonDataFromFile(file);
+	    }
 	}
 
 	/**
