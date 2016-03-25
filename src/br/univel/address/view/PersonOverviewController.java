@@ -110,29 +110,60 @@ public class PersonOverviewController {
 			birthdayLabel.setText("");
 		}
 	}
+
 	/**
 	 * Chamado quando o usuário clica no botão delete.
 	 */
-	/**@FXML
-	private void handleDeletePerson() {
-	    int selectedIndex = personTable.getSelectionModel().getSelectedIndex();
-	    personTable.getItems().remove(selectedIndex);
-	}*/
+	/**
+	 * @FXML private void handleDeletePerson() { int selectedIndex =
+	 *       personTable.getSelectionModel().getSelectedIndex();
+	 *       personTable.getItems().remove(selectedIndex); }
+	 */
 	/**
 	 * Chamado quando o usuário clica no botão delete.
 	 */
 	@FXML
 	private void handleDeletePerson() {
-	    int selectedIndex = personTable.getSelectionModel().getSelectedIndex();
-	    if (selectedIndex >= 0) {
-	        personTable.getItems().remove(selectedIndex);
-	    } else {
-	        // Nada selecionado.
-	        Dialogs.create()
-	            .title("Nenhuma seleção")
-	            .masthead("Nenhuma Pessoa Selecionada")
-	            .message("Por favor, selecione uma pessoa na tabela.")
-	            .showWarning();
-	    }
+		int selectedIndex = personTable.getSelectionModel().getSelectedIndex();
+		if (selectedIndex >= 0) {
+			personTable.getItems().remove(selectedIndex);
+		} else {
+			// Nada selecionado.
+			Dialogs.create().title("Nenhuma seleção").masthead("Nenhuma Pessoa Selecionada")
+					.message("Por favor, selecione uma pessoa na tabela.").showWarning();
+		}
+	}
+
+	/**
+	 * Chamado quando o usuário clica no botão novo. Abre uma janela para editar
+	 * detalhes da nova pessoa.
+	 */
+	@FXML
+	private void handleNewPerson() {
+		Person tempPerson = new Person();
+		boolean okClicked = mainApp.showPersonEditDialog(tempPerson);
+		if (okClicked) {
+			mainApp.getPersonData().add(tempPerson);
+		}
+	}
+
+	/**
+	 * Chamado quando o usuário clica no botão edit. Abre a janela para editar
+	 * detalhes da pessoa selecionada.
+	 */
+	@FXML
+	private void handleEditPerson() {
+		Person selectedPerson = personTable.getSelectionModel().getSelectedItem();
+		if (selectedPerson != null) {
+			boolean okClicked = mainApp.showPersonEditDialog(selectedPerson);
+			if (okClicked) {
+				showPersonDetails(selectedPerson);
+			}
+
+		} else {
+			// Nada seleciondo.
+			Dialogs.create().title("Nenhuma seleção").masthead("Nenhuma Pessoa Selecionada")
+					.message("Por favor, selecione uma pessoa na tabela.").showWarning();
+		}
 	}
 }
