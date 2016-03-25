@@ -4,6 +4,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+
+import org.controlsfx.dialog.Dialogs;
+
 import br.univel.address.MainApp;
 import br.univel.address.model.Person;
 import br.univel.address.util.DateUtil;
@@ -110,9 +113,26 @@ public class PersonOverviewController {
 	/**
 	 * Chamado quando o usuário clica no botão delete.
 	 */
-	@FXML
+	/**@FXML
 	private void handleDeletePerson() {
 	    int selectedIndex = personTable.getSelectionModel().getSelectedIndex();
 	    personTable.getItems().remove(selectedIndex);
+	}*/
+	/**
+	 * Chamado quando o usuário clica no botão delete.
+	 */
+	@FXML
+	private void handleDeletePerson() {
+	    int selectedIndex = personTable.getSelectionModel().getSelectedIndex();
+	    if (selectedIndex >= 0) {
+	        personTable.getItems().remove(selectedIndex);
+	    } else {
+	        // Nada selecionado.
+	        Dialogs.create()
+	            .title("Nenhuma seleção")
+	            .masthead("Nenhuma Pessoa Selecionada")
+	            .message("Por favor, selecione uma pessoa na tabela.")
+	            .showWarning();
+	    }
 	}
 }
