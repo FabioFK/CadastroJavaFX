@@ -22,6 +22,8 @@ public class Person {
 	private final IntegerProperty postalCode;
 	private final StringProperty city;
 	private final ObjectProperty<LocalDate> birthday;
+	
+	
 
 	/**
 	 * Construtor padrão.
@@ -29,7 +31,7 @@ public class Person {
 	public Person() {
 		this(null, null);
 	}
-
+	
 	/**
 	 * Construtor com alguns dados iniciais.
 	 * 
